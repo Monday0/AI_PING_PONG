@@ -1,14 +1,17 @@
 .heading
 {
+    font-family: 'Pacifico', cursive;
     width: 100%;
     text-align: left;
 }
 
 .heading h3{
+    font-family: 'Pacifico', cursive;
     display: inline;
 }
 
 .heading button{
+    font-family: 'Pacifico', cursive;
     float:right;
     border: 1px solid white;
 }
@@ -18,5 +21,29 @@
 }
 
 #play,#status {
+    font-family: 'Pacifico', cursive;
+    font-size: 22px;
+}
+
+#play,#stop {
+    font-family: 'Pacifico', cursive;
+    font-size: 22px;
+    margin: 20px;
+}
+
+.copy_right_footer {
+    position: fixed;
+    font-family: 'Pacifico', cursive;
+    color: rgb(0, 0, 0);
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(157, 155, 155);
+    line-height: 3;
+    text-align: center;
+}
+
+.modal-body
+{
+    font-family: 'Pacifico', cursive;
     font-size: 22px;
 }
