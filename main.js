@@ -1,4 +1,12 @@
+rightWristX = "";
+rightWristY = "";
+score = "";
 
+function gotPoses(results) {
+  rightWristX = results[0].pose.wrist.x;
+	rightWristY = results[0].pose.wrist.y;
+  score = rightWristX + rightWristY;
+}
 
 var paddle2 =10,paddle1=10;
 
@@ -20,6 +28,8 @@ var ball = {
     dy:3
 }
 
+game_status = "";
+
 function setup(){
   var canvas =  createCanvas(700,600);
   video = createCapture(VIDEO);
@@ -37,6 +47,10 @@ function modelLoaded() {
 
 
 function draw(){
+if(game_status == "start")
+{
+  
+}
 
  background(0); 
 
@@ -47,6 +61,18 @@ function draw(){
  fill("black");
  stroke("black");
  rect(0,0,20,700);
+
+ if(score > 0.2) {
+  fill("black");
+  stroke("black");
+  circle(10,10,20);
+ }
+
+ function startGame()
+ {
+   game_status = "start";
+   document.getElementById("status").innerHTML = "Game is loaded";
+ }
  
    //funtion paddleInCanvas call 
    paddleInCanvas();
@@ -113,7 +139,7 @@ function drawScore(){
 }
 
 
-//very important function of this game
+//very important function of this 
 function move(){
    fill(50,350,0);
    stroke(255,0,0);
