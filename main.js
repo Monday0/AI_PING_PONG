@@ -1,12 +1,6 @@
-rightWristX = "";
-rightWristY = "";
-score = "";
-
-function gotPoses(results) {
-  rightWristX = results[0].pose.wrist.x;
-	rightWristY = results[0].pose.wrist.y;
-  score = rightWristX + rightWristY;
-}
+rightWristX = 0;
+rightWristY = 0;
+scoreRightWrist = 0;
 
 var paddle2 =10,paddle1=10;
 
@@ -30,6 +24,12 @@ var ball = {
 
 game_status = "";
 
+function preload() 
+{
+  ball_touch_paddle = loadSound("ball_touch_paddle.wav");
+  missed = loadSound("missed.wav");
+}
+
 function setup(){
   var canvas =  createCanvas(700,600);
   video = createCapture(VIDEO);
@@ -45,14 +45,30 @@ function modelLoaded() {
   console.log('Model Loaded!');
 }
 
+function gotPoses(results) 
+{
+if(results.length > 0) 
+  {
+  rightWristX = results[0].pose.rightWrist.x;
+	rightWristY = results[0].pose.rightWrist.y;
+  scoreRightWrist = results[0].pose.keypoints[10].score;
+  console.log(scoreRightWrist);
+  }
+}
+
+function startGame()
+{
+  game_status = "start";
+  document.getElementById("status").innerHTML = "Game is loaded";
+}
 
 function draw(){
 if(game_status == "start")
 {
-  
-}
 
  background(0); 
+
+image(video,0,0,700,600);
 
  fill("black");
  stroke("black");
@@ -62,17 +78,14 @@ if(game_status == "start")
  stroke("black");
  rect(0,0,20,700);
 
- if(score > 0.2) {
+ if(scoreRightWrist > 0.2) 
+ {
   fill("black");
   stroke("black");
-  circle(10,10,20);
+  circle(rightWristX,rightWristY,30);
  }
 
- function startGame()
- {
-   game_status = "start";
-   document.getElementById("status").innerHTML = "Game is loaded";
- }
+
  
    //funtion paddleInCanvas call 
    paddleInCanvas();
@@ -81,7 +94,7 @@ if(game_status == "start")
    fill(250,0,0);
     stroke(0,0,250);
     strokeWeight(0.5);
-   paddle1Y = mouseY; 
+   paddle1Y = rightwristY; 
    rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
    
    
@@ -101,8 +114,8 @@ if(game_status == "start")
    
    //function move call which in very important
     move();
+  }
 }
-
 
 
 //function reset when ball does notcame in the contact of padde
@@ -153,9 +166,11 @@ function move(){
   if (ball.x-2.5*ball.r/2< 0){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
     ball.dx = -ball.dx+0.5; 
+    ball_touch_paddle.play();
   }
   else{
     pcscore++;
+    missed.play();
     reset();
     navigator.vibrate(100);
   }
@@ -197,4 +212,11 @@ function paddleInCanvas(){
   if(mouseY < 0){
     mouseY =0;
   }  
+}
+ 
+function restart()
+{
+  loop();
+  pcscore = 0;
+  playerscore = 0;
 }
